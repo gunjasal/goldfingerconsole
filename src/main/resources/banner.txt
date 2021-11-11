@@ -1,0 +1,20 @@
+${AnsiColor.BRIGHT_MAGENTA}
+${AnsiColor.BRIGHT_MAGENTA}
+${AnsiColor.BRIGHT_MAGENTA}   $ ヽ(°〇°)ﾉ   $$$    ヽ(°〇°)ﾉ  ヽ(°〇°)ﾉ $ ヽ(°〇°)ﾉ          $$$$    ヽ(°〇°)ﾉ    ヽ(°〇°)ﾉ   ヽ(°〇°)ﾉ ヽ(°〇°)ﾉ
+${AnsiColor.BRIGHT_MAGENTA}     ヽ(°〇°)ﾉ ヽ(°〇°)ﾉ  ヽ(°〇°)ﾉ ヽ(°〇°)ﾉ    ヽ(°〇°)ﾉ  $$$              ヽ(°〇°)ﾉ           ヽ(°〇°)ﾉ
+${AnsiColor.BRIGHT_MAGENTA}   ヽ(°〇°)ﾉ   ヽ(°〇°)ﾉ  $$      ヽ(°〇°)ﾉ    $$$$$                   ヽ(°〇°)ﾉ ヽ(°〇°)ﾉ ヽ(°〇°)ﾉ    ヽ(°〇°)ﾉ
+${AnsiColor.BRIGHT_MAGENTA}
+${AnsiColor.BRIGHT_MAGENTA}                              __          __      ___
+${AnsiColor.BRIGHT_MAGENTA}                             [  |        |  ]   .' ..]  (_)
+${AnsiColor.BRIGHT_MAGENTA}             .--./)   .--.    | |    .--.| |   _| |_    __    _ .--.     .--./)  .---.   _ .--.
+${AnsiColor.BRIGHT_MAGENTA}            / /'`\; / .'`\ \  | |  / /'`\' |  '-| |-'  [  |  [ `.-. |   / /'`\; / /__\\ [ `/'`\]
+${AnsiColor.BRIGHT_MAGENTA}            \ \._// | \__. |  | |  | \__/  |    | |     | |   | | | |   \ \._// | \__.,  | |
+${AnsiColor.BRIGHT_MAGENTA}            .',__`   '.__.'  [___]  '.__.;__]  [___]   [___] [___||__]  .',__`   '.__.' [___]
+${AnsiColor.BRIGHT_MAGENTA}           ( ( __))                                                    ( ( __))
+${AnsiColor.BRIGHT_MAGENTA}
+${AnsiColor.BRIGHT_MAGENTA}       ヽ(°〇°)ﾉ   ヽ(°〇°)ﾉ      $$$      ヽ(°〇°)ﾉ             $$$ $$$$        ヽ(°〇°)ﾉ ヽ(°〇°)ﾉ   ヽ(°〇°)ﾉ
+${AnsiColor.BRIGHT_MAGENTA}   ヽ(°〇°)ﾉ $$$       ヽ(°〇°)ﾉ  ヽ(°〇°)ﾉ  ヽ(°〇°)ﾉ              ヽ(°〇°)ﾉ    ヽ(°〇°)ﾉ   ヽ(°〇°)ﾉ      ヽ(°〇°)ﾉ
+${AnsiColor.BRIGHT_MAGENTA}     $$ ヽ(°〇°)ﾉ ヽ(°〇°)ﾉ  ヽ(°〇°)ﾉ ヽ(°〇°)ﾉ    ヽ(°〇°)ﾉ     $$$          ヽ(°〇°)ﾉ     $$$      ヽ(°〇°)ﾉ
+${AnsiColor.BRIGHT_MAGENTA}
+${AnsiColor.BRIGHT_MAGENTA}
+
