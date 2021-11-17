@@ -34,25 +34,29 @@ class ConsoleClient {
         scanner.close()
     }
 
+    private fun execute() = when (orderBuilder.state) {
+        OrderState.CHOOSE_TYPE -> orderTypeChoiceService
+
+        OrderState.CHOOSE_ORDER_MARKET -> orderMarketChoiceService
+        OrderState.CHOOSE_ORDER_CANCEL_MARKET -> orderCancelMarketChoiceService
+        OrderState.BUY_OR_SELL -> orderSideChoiceService
+
+        OrderState.CHOOSE_SPLIT_TYPE -> splitTypeChoiceService
+        OrderState.INPUT_TOTAL_MONEY -> totalMoneyInputService
+        OrderState.INPUT_MIN_PRICE -> minPriceInputService
+        OrderState.INPUT_MAX_PRICE -> maxPriceInputService
+        OrderState.CHOOSE_PRICE_UNIT -> priceUnitChoiceService
+
+        OrderState.CONFIRM_ORDER -> orderConfirmService
+        OrderState.CONFIRM_ORDER_CANCEL -> orderConfirmService // fixme
+        OrderState.COMPLETED -> orderConfirmService // fixme
+        OrderState.BYE -> orderConfirmService // fixme
+    }.execute(orderBuilder, scanner)
+
     fun run() {
         while (true) {
             try {
-                when (orderBuilder.state) {
-                    OrderState.CHOOSE_TYPE -> orderTypeChoiceService.execute(orderBuilder, scanner)
-                    OrderState.CHOOSE_ORDER_MARKET -> orderMarketChoiceService.execute(orderBuilder, scanner)
-                    OrderState.CHOOSE_ORDER_CANCEL_MARKET -> orderCancelMarketChoiceService.execute(orderBuilder, scanner)
-                    OrderState.BUY_OR_SELL -> orderSideChoiceService.execute(orderBuilder, scanner)
-                    OrderState.CHOOSE_SPLIT_TYPE -> splitTypeChoiceService.execute(orderBuilder, scanner)
-                    OrderState.INPUT_TOTAL_MONEY -> totalMoneyInputService.execute(orderBuilder, scanner)
-                    OrderState.INPUT_MIN_PRICE -> minPriceInputService.execute(orderBuilder, scanner)
-                    OrderState.INPUT_MAX_PRICE -> maxPriceInputService.execute(orderBuilder, scanner)
-                    OrderState.CHOOSE_PRICE_UNIT -> priceUnitChoiceService.execute(orderBuilder, scanner)
-                    OrderState.CONFIRM_ORDER -> orderConfirmService.execute(orderBuilder, scanner)
-                    OrderState.COMPLETED -> {
-                    }
-                    else -> {
-                    }
-                }
+                execute()
             } catch (e: Exception) {
                 log.error("에러낫따", e)
             }

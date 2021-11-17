@@ -40,7 +40,7 @@ class OrderBuilder {
 
     fun init() = run {
         type = null
-        state = OrderState.CHOOSE_ORDER_MARKET
+        state = OrderState.CHOOSE_TYPE
         market = null
         side = null
         splitType = null
@@ -93,7 +93,7 @@ class OrderBuilder {
     // info
     fun summary() = "=======================\n" +
             "- ${type?.koText}\n" +
-            "- ${market?.code?.code}\n" +
+            "- ${market?.code?.id}\n" +
             "- ${side?.koText} (${side?.upbitParam})\n" +
             "- ${splitType?.koText}\n" +
             "- ${"총 ₩ %,.1f".format(money)}\n" +

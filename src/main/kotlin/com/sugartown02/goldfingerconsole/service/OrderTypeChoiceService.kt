@@ -14,6 +14,7 @@ class OrderTypeChoiceService: AbstractOrderService<List<OrderType>, String>() {
     }
 
     override fun showGuide(orderBuilder: OrderBuilder, options: List<OrderType>) {
+        guide("어서오세오")
         input("${orderBuilder.state.guide} [${options.stream().map { "(${it.alias}) ${it.command}" }.toList().joinToString()}]")
     }
 

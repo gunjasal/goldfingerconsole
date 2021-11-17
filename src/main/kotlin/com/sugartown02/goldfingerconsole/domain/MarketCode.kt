@@ -3,7 +3,7 @@ package com.sugartown02.goldfingerconsole.domain
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonValue
 
-enum class MarketCode(@JsonValue val code: String, val active: Boolean = false, val priority: Int = 999) {
+enum class MarketCode(@JsonValue val id: String, val active: Boolean = false, val priority: Int = 999) {
     @JsonEnumDefaultValue UNKNOWN("UNKNOWN"),
 
     KRW_1INCH("KRW-1INCH"),
@@ -115,7 +115,7 @@ enum class MarketCode(@JsonValue val code: String, val active: Boolean = false, 
     KRW_ZRX("KRW-ZRX");
 
     companion object {
-        private val markets = values().associateBy(MarketCode::code)
+        private val markets = values().associateBy(MarketCode::id)
         fun from(code: String) = markets[code] ?: UNKNOWN
     }
 }

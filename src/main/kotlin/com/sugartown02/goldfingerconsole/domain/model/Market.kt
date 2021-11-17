@@ -16,13 +16,13 @@ data class Market (@JsonProperty("market") val code: MarketCode, val koreanName:
     }
 }
 
-fun Markets.list(activeOnly: Boolean = true): Markets {
+fun Markets.list(activeOnly: Boolean = false): Markets {
     return this.filter { it.code != MarketCode.UNKNOWN }
         .filter { (activeOnly && it.code.active) || (!activeOnly) }
         .sortedBy { it.code.priority }
         .sortedBy { !it.code.active }
 }
 
-fun Markets.print() {
-    this.list(true).forEachIndexed { idx, market -> println("($idx) ${market.info()}") }
+fun Markets.print(activeOnly: Boolean = false) {
+    this.list(activeOnly).forEachIndexed { idx, market -> println("($idx) ${market.info()}") }
 }

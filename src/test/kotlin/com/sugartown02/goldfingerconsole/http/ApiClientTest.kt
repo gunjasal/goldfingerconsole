@@ -15,7 +15,7 @@ internal class ApiClientTest {
         val markets = apiClient.marketAll()
         assertTrue(markets!!.list().stream().anyMatch { e -> e.code == MarketCode.UNKNOWN })
 
-        markets.print()
+        markets.print(true)
     }
 
     @Test
@@ -23,7 +23,7 @@ internal class ApiClientTest {
         val marketCode = MarketCode.KRW_ETH
         val ticker = apiClient.ticker(marketCode)!!
 
-        Assertions.assertThat(ticker[0].market).isEqualTo(marketCode.code)
+        Assertions.assertThat(ticker[0].market).isEqualTo(marketCode.id)
         println(ticker)
     }
 
@@ -32,7 +32,7 @@ internal class ApiClientTest {
         val marketCode = MarketCode.KRW_ETH
         val orderBook = apiClient.orderBook(marketCode)!!
 
-        Assertions.assertThat(orderBook[0].market).isEqualTo(marketCode.code)
+        Assertions.assertThat(orderBook[0].market).isEqualTo(marketCode.id)
         println(orderBook)
     }
 
@@ -47,7 +47,7 @@ internal class ApiClientTest {
         val marketCode = MarketCode.KRW_ETH
         val orderChance = apiClient.orderChance(marketCode)!!
 
-        Assertions.assertThat(orderChance.market.id).isEqualTo(marketCode.code)
+        Assertions.assertThat(orderChance.market.id).isEqualTo(marketCode.id)
         println(orderChance)
     }
 }

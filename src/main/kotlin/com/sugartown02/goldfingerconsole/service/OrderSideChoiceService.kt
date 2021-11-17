@@ -30,6 +30,6 @@ class OrderSideChoiceService: AbstractOrderService<List<OrderSide>, String>() {
     }
 
     override fun showConfirm(orderBuilder: OrderBuilder) {
-        assure("${orderBuilder.side!!.koText} 골랏읍니다\n")
+        assure("${orderBuilder.side!!.koText} [${orderBuilder.type!!.koText}] 골랏읍니다\n")
     }
 }

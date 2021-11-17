@@ -33,8 +33,8 @@ class UpbitApiClient {
             val props = Properties()
             props.load(FileInputStream("./keys.properties"))
 
-            if (props["accessToken"] == null || props["accessToken"].toString().isNotBlank()) throw IllegalStateException("no accessToken in keys.properties")
-            if (props["secretToken"] == null || props["secretToken"].toString().isNotBlank()) throw IllegalStateException("no secretToken in keys.properties")
+            if (props["accessToken"] == null || props["accessToken"].toString().isBlank()) throw IllegalStateException("no accessToken in keys.properties")
+            if (props["secretToken"] == null || props["secretToken"].toString().isBlank()) throw IllegalStateException("no secretToken in keys.properties")
 
             return props
         }
@@ -47,9 +47,9 @@ class UpbitApiClient {
             md.update(queryString.toByteArray(charset("UTF-8")))
             val queryHash = String.format("%0128x", BigInteger(1, md.digest()))
 
-            val algorithm: Algorithm = Algorithm.HMAC256(keys["accessToken"].toString())
+            val algorithm: Algorithm = Algorithm.HMAC256(keys["secretToken"].toString())
             val jwtToken: String = JWT.create()
-                .withClaim("access_key", keys["secretToken"].toString())
+                .withClaim("access_key", keys["accessToken"].toString())
                 .withClaim("nonce", UUID.randomUUID().toString())
                 .withClaim("query_hash", queryHash)
                 .withClaim("query_hash_alg", "SHA512")
@@ -62,27 +62,27 @@ class UpbitApiClient {
     fun marketAll(): Markets? {
         return try {
             return upbitApiService.marketAll().execute().body()
-        } catch (e: Exception) {
+        } catch (e: Exception) { // todo remove catch blocks below
             log.error("market all api call error: ", e)
-            null
+            throw e
         }
     }
 
     fun ticker(marketCode: MarketCode): Tickers? {
         return try {
-            return upbitApiService.ticker(marketCode.code).execute().body()
+            return upbitApiService.ticker(marketCode.id).execute().body()
         } catch (e: Exception) {
             log.error("ticker api call error: ", e)
-            null
+            throw e
         }
     }
 
     fun orderBook(marketCode: MarketCode): OrderBooks? {
         return try {
-            return upbitApiService.orderbook(marketCode.code).execute().body()
+            return upbitApiService.orderbook(marketCode.id).execute().body()
         } catch (e: Exception) {
             log.error("order book api call error: ", e)
-            null
+            throw e
         }
     }
 
@@ -94,19 +94,19 @@ class UpbitApiClient {
             return upbitApiService.orders(upbitToken(queryMap), queryMap).execute().body()
         } catch (e: Exception) {
             log.error("orders api call error: ", e)
-            null
+            throw e
         }
     }
 
     fun orderChance(marketCode: MarketCode): OrderChance? {
         val queryMap = mutableMapOf<String, String>()
-        queryMap["market"] = marketCode.code
+        queryMap["market"] = marketCode.id
 
         return try {
             return upbitApiService.orderChance(upbitToken(queryMap), queryMap).execute().body()
         } catch (e: Exception) {
             log.error("order chance api call error: ", e)
-            null
+            throw e
         }
     }
 }

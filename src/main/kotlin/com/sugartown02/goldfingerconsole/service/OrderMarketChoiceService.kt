@@ -19,7 +19,7 @@ class OrderMarketChoiceService: AbstractOrderService<Markets, Int>() {
     }
 
     override fun showGuide(orderBuilder: OrderBuilder, options: Markets) {
-        options.print()
+        options.print(true)
         input(orderBuilder.state.guide)
     }
 
