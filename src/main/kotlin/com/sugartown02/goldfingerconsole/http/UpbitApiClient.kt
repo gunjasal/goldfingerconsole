@@ -9,9 +9,12 @@ import com.sugartown02.goldfingerconsole.domain.MarketCode
 import com.sugartown02.goldfingerconsole.domain.model.*
 import okhttp3.OkHttpClient
 import org.springframework.stereotype.Service
+import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
 import java.io.FileInputStream
+import java.lang.RuntimeException
 import java.math.BigInteger
 import java.security.MessageDigest
 import java.util.*
@@ -59,54 +62,48 @@ class UpbitApiClient {
         }
     }
 
-    fun marketAll(): Markets? {
-        return try {
-            return upbitApiService.marketAll().execute().body()
-        } catch (e: Exception) { // todo remove catch blocks below
-            log.error("market all api call error: ", e)
-            throw e
-        }
-    }
+    fun marketAll(): Markets? = call(upbitApiService.marketAll(), "market all api error")
 
-    fun ticker(marketCode: MarketCode): Tickers? {
-        return try {
-            return upbitApiService.ticker(marketCode.id).execute().body()
-        } catch (e: Exception) {
-            log.error("ticker api call error: ", e)
-            throw e
-        }
-    }
+    fun ticker(marketCode: MarketCode): Tickers? = call(upbitApiService.ticker(marketCode.id), "ticker api error")
 
-    fun orderBook(marketCode: MarketCode): OrderBooks? {
-        return try {
-            return upbitApiService.orderbook(marketCode.id).execute().body()
-        } catch (e: Exception) {
-            log.error("order book api call error: ", e)
-            throw e
-        }
-    }
+    fun orderBook(marketCode: MarketCode): OrderBooks? = call(upbitApiService.orderbook(marketCode.id), "orderbook api error")
 
-    fun orders(): Orders? {
+    fun orders(marketCode: MarketCode? = null): Orders? {
         val queryMap = mutableMapOf<String, String>()
         queryMap["state"] = "wait"
+        if (marketCode != null) queryMap["market"] = marketCode.id
 
-        return try {
-            return upbitApiService.orders(upbitToken(queryMap), queryMap).execute().body()
-        } catch (e: Exception) {
-            log.error("orders api call error: ", e)
-            throw e
-        }
+        return call(upbitApiService.orders(upbitToken(queryMap), queryMap), "orders api error")
     }
 
     fun orderChance(marketCode: MarketCode): OrderChance? {
         val queryMap = mutableMapOf<String, String>()
         queryMap["market"] = marketCode.id
 
-        return try {
-            return upbitApiService.orderChance(upbitToken(queryMap), queryMap).execute().body()
-        } catch (e: Exception) {
-            log.error("order chance api call error: ", e)
-            throw e
+        return call(upbitApiService.orderChance(upbitToken(queryMap), queryMap), "order chance api error")
+    }
+
+    fun cancelOrder(uuids: List<String>): List<CancelledOrder> {
+        return uuids.map { uuid ->
+            val queryMap = mutableMapOf<String, String>()
+            queryMap["uuid"] = uuid
+
+            try {
+                Thread.sleep(130) // 8회/1초
+                call(upbitApiService.cancelOrder(upbitToken(queryMap), queryMap), "order cancel api error")
+            } catch (e: Exception) {
+                CancelledOrder(uuid = uuid, customErrorMessage = "${e.message}")
+            }
+        }
+    }
+
+    private fun <T> call(call: Call<T>, errorMessage: String): T {
+        val response = call.execute()
+        if (response.isSuccessful) {
+            return response.body()!!
+        } else {
+            log.error("${errorMessage}: ${response.message()}")
+            throw RuntimeException(response.message())
         }
     }
 }

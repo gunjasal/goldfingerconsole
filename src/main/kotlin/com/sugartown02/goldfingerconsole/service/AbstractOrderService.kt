@@ -39,11 +39,6 @@ abstract class AbstractOrderService<O, I>: Orderable {
                     guide("잘못입력햇아오. 다시 입력해주세오.")
                 }
             }
-        } ?: run { // get options error
-            guide("문제발생한거 같따. 다시 츄라이 원해요 retry? (Y/n)")
-            if (scanner.next().trim().lowercase() == "n") {
-                orderBuilder.state = OrderState.BYE
-            }
         }
     }
 
@@ -69,20 +64,20 @@ abstract class AbstractOrderService<O, I>: Orderable {
         }
     }
 
-    fun input(message: String) {
-        print("➜  $message  ")
-    }
-
-    fun guide(message: String) {
-        println("✗  $message\n")
-    }
-
-    fun assure(message: String) {
-        println("★  $message")
-    }
-
     private fun bye() {
         guide("bye!")
         exitProcess(1)
     }
+}
+
+fun input(message: String) {
+    print("➜  $message  ")
+}
+
+fun guide(message: String) {
+    println("✗  $message\n")
+}
+
+fun assure(message: String) {
+    println("★  $message")
 }

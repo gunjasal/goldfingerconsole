@@ -24,4 +24,6 @@ data class Order (
     val locked: String,
     val executedVolume: String,
     val tradesCount: Long
-)
+) {
+    fun compact() = "$market ($side) $price 수량($volume) 잔여수량($remainingVolume) [$uuid]"
+}

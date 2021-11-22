@@ -4,6 +4,7 @@ import com.sugartown02.goldfingerconsole.declaration.step
 import com.sugartown02.goldfingerconsole.domain.helper.OrderUnit
 import com.sugartown02.goldfingerconsole.domain.helper.OrderUnits
 import com.sugartown02.goldfingerconsole.domain.helper.Price
+import com.sugartown02.goldfingerconsole.domain.model.CancelledOrder
 import com.sugartown02.goldfingerconsole.domain.model.Market
 import java.math.RoundingMode
 
@@ -18,6 +19,7 @@ class OrderBuilder {
     var maxPrice: Price = Price("0.0")
     var priceUnit: Price = Price("0.0")
     var orders: OrderUnits? = null
+    var cancelledOrders: List<CancelledOrder>? = null
 
     // publics
     fun splitMoneyToOrderUnits(): OrderUnits {
@@ -49,6 +51,7 @@ class OrderBuilder {
         maxPrice = Price("0.0")
         priceUnit = Price("0.0")
         orders = null
+        cancelledOrders = null
     }
 
     fun reprice() = run {

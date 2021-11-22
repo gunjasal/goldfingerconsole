@@ -10,21 +10,22 @@ import java.util.*
 import javax.annotation.PreDestroy
 
 @Service
-class ConsoleClient {
+class ConsoleClient(
+    val orderTypeChoiceService: OrderTypeChoiceService,
+    val orderMarketChoiceService: OrderMarketChoiceService,
+    val orderCancelMarketChoiceService: OrderCancelMarketChoiceService,
+    val orderSideChoiceService: OrderSideChoiceService,
+    val splitTypeChoiceService: SplitTypeChoiceService,
+    val totalMoneyInputService: TotalMoneyInputService,
+    val minPriceInputService: MinPriceInputService,
+    val maxPriceInputService: MaxPriceInputService,
+    val priceUnitChoiceService: PriceUnitChoiceService,
+    val orderConfirmService: OrderConfirmService,
+    val orderCancelConfirmService: OrderCancelConfirmService,
+) {
     companion object {
         val log = logger()
     }
-
-    @Autowired private lateinit var orderTypeChoiceService: OrderTypeChoiceService
-    @Autowired private lateinit var orderMarketChoiceService: OrderMarketChoiceService
-    @Autowired private lateinit var orderCancelMarketChoiceService: OrderCancelMarketChoiceService
-    @Autowired private lateinit var orderSideChoiceService: OrderSideChoiceService
-    @Autowired private lateinit var splitTypeChoiceService: SplitTypeChoiceService
-    @Autowired private lateinit var totalMoneyInputService: TotalMoneyInputService
-    @Autowired private lateinit var minPriceInputService: MinPriceInputService
-    @Autowired private lateinit var maxPriceInputService: MaxPriceInputService
-    @Autowired private lateinit var priceUnitChoiceService: PriceUnitChoiceService
-    @Autowired private lateinit var orderConfirmService: OrderConfirmService
 
     private var scanner = Scanner(System.`in`)
     private var orderBuilder = OrderBuilder()
@@ -48,7 +49,7 @@ class ConsoleClient {
         OrderState.CHOOSE_PRICE_UNIT -> priceUnitChoiceService
 
         OrderState.CONFIRM_ORDER -> orderConfirmService
-        OrderState.CONFIRM_ORDER_CANCEL -> orderConfirmService // fixme
+        OrderState.CONFIRM_ORDER_CANCEL -> orderCancelConfirmService
         OrderState.COMPLETED -> orderConfirmService // fixme
         OrderState.BYE -> orderConfirmService // fixme
     }.execute(orderBuilder, scanner)
@@ -58,7 +59,11 @@ class ConsoleClient {
             try {
                 execute()
             } catch (e: Exception) {
-                log.error("에러낫따", e)
+                guide("에러낫따: $e")
+                guide("문제발생한거 같따. 다시 츄라이 원해요 retry? (Y/n)")
+                if (scanner.next().trim().lowercase() == "n") {
+                    orderBuilder.state = OrderState.BYE
+                }
             }
         }
     }
