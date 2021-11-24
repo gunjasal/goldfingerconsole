@@ -6,11 +6,12 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.sugartown02.goldfingerconsole.declaration.logger
 import com.sugartown02.goldfingerconsole.domain.MarketCode
+import com.sugartown02.goldfingerconsole.domain.OrderBuilder
+import com.sugartown02.goldfingerconsole.domain.helper.OrderUnits
 import com.sugartown02.goldfingerconsole.domain.model.*
 import okhttp3.OkHttpClient
 import org.springframework.stereotype.Service
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
 import java.io.FileInputStream
@@ -82,6 +83,30 @@ class UpbitApiClient {
         queryMap["market"] = marketCode.id
 
         return call(upbitApiService.orderChance(upbitToken(queryMap), queryMap), "order chance api error")
+    }
+
+    fun requestOrder(orderBuilder: OrderBuilder): List<Order> {
+        return orderBuilder.orderUnits().map { orderUnit ->
+            val queryMap = mutableMapOf<String, String>()
+            queryMap["market"] = orderBuilder.market!!.code.id
+            queryMap["side"] = orderBuilder.side!!.upbitParam
+            queryMap["price"] = orderUnit.price.toString()
+            queryMap["volume"] = orderUnit.quantity.toString()
+            queryMap["ord_type"] = "limit"
+
+            try {
+                Thread.sleep(130) // 8회/1초
+                call(upbitApiService.requestOrder(upbitToken(queryMap), queryMap), "request order api error")
+            } catch (e: Exception) {
+                Order(
+                    market = orderBuilder.market!!.code.id,
+                    side = orderBuilder.side!!.upbitParam,
+                    price = orderUnit.price.toString(),
+                    volume = orderUnit.quantity.toString(),
+                    customErrorMessage = "${e.message}")
+            }
+        }
+
     }
 
     fun cancelOrder(uuids: List<String>): List<CancelledOrder> {

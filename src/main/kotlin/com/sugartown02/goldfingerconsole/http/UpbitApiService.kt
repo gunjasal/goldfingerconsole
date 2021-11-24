@@ -20,6 +20,9 @@ interface UpbitApiService {
     @GET("/v1/orders/chance")
     fun orderChance(@Header("Authorization") authToken: String, @QueryMap queryMap: Map<String, String>): Call<OrderChance>
 
+    @POST("/v1/orders")
+    fun requestOrder(@Header("Authorization") authToken: String, @QueryMap queryMap: Map<String, String>): Call<Order>
+
     @DELETE("/v1/order")
     fun cancelOrder(@Header("Authorization") authToken: String, @QueryMap queryMap: Map<String, String>): Call<CancelledOrder>
 

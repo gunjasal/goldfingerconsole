@@ -35,6 +35,6 @@ class InvalidOrderStateService: AbstractOrderService<EmptyOption, String>() {
     }
 
     override fun showEmptyOptionGuide(orderBuilder: OrderBuilder) {
-        TODO("Not yet implemented")
+        throw NotImplementedError("의도된 노 구현")
     }
 }

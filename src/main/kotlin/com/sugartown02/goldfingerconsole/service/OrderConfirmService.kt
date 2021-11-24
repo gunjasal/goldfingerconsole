@@ -4,11 +4,14 @@ import com.sugartown02.goldfingerconsole.client.ConsoleInput
 import com.sugartown02.goldfingerconsole.domain.EmptyOption
 import com.sugartown02.goldfingerconsole.domain.InputValidity
 import com.sugartown02.goldfingerconsole.domain.OrderBuilder
+import com.sugartown02.goldfingerconsole.http.UpbitApiClient
 import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-class OrderConfirmService: AbstractOrderService<EmptyOption, String>() {
+class OrderConfirmService(
+    private val upbitApiClient: UpbitApiClient
+): AbstractOrderService<EmptyOption, String>() {
     override fun fetchOptions(orderBuilder: OrderBuilder): EmptyOption? {
         return EmptyOption()
     }
@@ -34,10 +37,10 @@ class OrderConfirmService: AbstractOrderService<EmptyOption, String>() {
 
     override fun updateOrder(orderBuilder: OrderBuilder, input: ConsoleInput<String>, options: EmptyOption) {
         orderBuilder.orders = orderBuilder.orderUnits()
-        // todo execute order
+        orderBuilder.requestedOrders = upbitApiClient.requestOrder(orderBuilder)
     }
 
     override fun showConfirm(orderBuilder: OrderBuilder) {
-        assure("${orderBuilder.orderUnits().mapIndexed { idx, orderUnit -> "($idx) ${orderUnit.postExecutionSummary}\n" }}")
+        assure("주문 요청 결과\n${orderBuilder.requestedOrders?.mapIndexed { idx, order -> "($idx) ${order.info()}\n" }}")
     }
 }

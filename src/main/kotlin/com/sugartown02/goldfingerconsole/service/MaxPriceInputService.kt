@@ -26,7 +26,7 @@ class MaxPriceInputService: AbstractOrderService<PriceUnit, Double>() {
     }
 
     override fun showEmptyOptionGuide(orderBuilder: OrderBuilder) {
-        TODO("Not yet implemented")
+        throw NotImplementedError("의도된 노 구현")
     }
 
     override fun scanInput(scanner: Scanner): ConsoleInput<Double> {

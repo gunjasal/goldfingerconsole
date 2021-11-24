@@ -20,7 +20,7 @@ class OrderCancelConfirmService(
     }
 
     override fun showGuide(orderBuilder: OrderBuilder, options: Orders) {
-        options.forEachIndexed { idx, order -> println("($idx) ${order.compact()}") }
+        options.forEachIndexed { idx, order -> println("($idx) ${order.info()}") }
         input(orderBuilder.state.guide)
     }
 
@@ -34,17 +34,17 @@ class OrderCancelConfirmService(
 
     override fun valid(orderBuilder: OrderBuilder, input: ConsoleInput<String>, options: Orders): InputValidity {
         return if (input.translation!!.trim() == "Y") InputValidity.VALID_Y
-        else if (input.translation!!.trim() == "n") InputValidity.VALID_N
+        else if (input.translation.trim() == "n") InputValidity.VALID_N
         else InputValidity.INVALID
     }
 
     override fun updateOrder(orderBuilder: OrderBuilder, input: ConsoleInput<String>, options: Orders) {
-        val uuids = options.map { it.uuid }
+        val uuids = options.map { it.uuid!! }
         orderBuilder.cancelledOrders = upbitApiClient.cancelOrder(uuids)
     }
 
     override fun showConfirm(orderBuilder: OrderBuilder) {
-        upbitApiClient.getOrders(orderBuilder.market!!.code)
+//        upbitApiClient.getOrders(orderBuilder.market!!.code) // todo fix
         assure("주문 취소 요청 결과\n${orderBuilder.cancelledOrders?.mapIndexed { idx, cancelledOrder -> "($idx) ${cancelledOrder.info()}\n" }}")
     }
 }

@@ -90,7 +90,7 @@ fun input(message: String) {
 }
 
 fun guide(message: String) {
-    println("✗  $message\n")
+    println("\n✗  $message")
 }
 
 fun assure(message: String) {

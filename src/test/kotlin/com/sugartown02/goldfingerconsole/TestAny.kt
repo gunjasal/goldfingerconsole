@@ -54,5 +54,7 @@ internal class TestAny {
 
         assertThat(props["accessToken"]).isNotNull
         println(props["accessToken"])
+
+        println(3.123.toBigDecimal().toString())
     }
 }

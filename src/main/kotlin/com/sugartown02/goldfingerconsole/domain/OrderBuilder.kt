@@ -6,6 +6,7 @@ import com.sugartown02.goldfingerconsole.domain.helper.OrderUnits
 import com.sugartown02.goldfingerconsole.domain.helper.Price
 import com.sugartown02.goldfingerconsole.domain.model.CancelledOrder
 import com.sugartown02.goldfingerconsole.domain.model.Market
+import com.sugartown02.goldfingerconsole.domain.model.Order
 import com.sugartown02.goldfingerconsole.service.guide
 import java.math.RoundingMode
 
@@ -20,6 +21,7 @@ class OrderBuilder {
     var maxPrice: Price = Price("0.0")
     var priceUnit: Price = Price("0.0")
     var orders: OrderUnits? = null
+    var requestedOrders: List<Order>? = null
     var cancelledOrders: List<CancelledOrder>? = null
 
     // publics
@@ -54,6 +56,7 @@ class OrderBuilder {
         maxPrice = Price("0.0")
         priceUnit = Price("0.0")
         orders = null
+        requestedOrders = null
         cancelledOrders = null
     }
 
@@ -91,6 +94,6 @@ class OrderBuilder {
             "- ${"최소가격 ₩ %,.1f".format(minPrice)}\n" +
             "- ${"최대가격 ₩ %,.1f".format(maxPrice)}\n" +
             "- ${"단위 ₩ %,.1f".format(priceUnit)}\n" +
-            "${orderUnits().mapIndexed { idx, orderUnit -> "($idx) ${orderUnit.preExecutionSummary}\n" }}" +
+            "${orderUnits().mapIndexed { idx, orderUnit -> "($idx) ${orderUnit.preExecutionSummary()}\n" }}" +
             "======================="
 }

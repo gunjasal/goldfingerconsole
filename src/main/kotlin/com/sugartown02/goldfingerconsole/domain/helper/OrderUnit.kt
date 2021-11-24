@@ -11,10 +11,8 @@ data class OrderUnit(val price: Price, val quantity: Quantity) {
         private const val minBidMoney = 5_000
     }
 
-    val executed = false
-
     private val total = (price * quantity).toInt()
     private val valid = total > minBidMoney
-    val preExecutionSummary = "$price (${"%.5f".format(quantity)} unit) [₩ ${total}] ${if(valid) "유효" else "패스 XXX"}"
-    val postExecutionSummary = "$preExecutionSummary [${if(executed) "주문 완료" else "주문 실패"}]"
+
+    fun preExecutionSummary() = "$price (${"%.5f".format(quantity)} unit) [₩ ${total}] ${if(valid) "유효" else "패스 XXX"}"
 }
