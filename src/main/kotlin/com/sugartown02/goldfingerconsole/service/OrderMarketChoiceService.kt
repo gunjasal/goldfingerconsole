@@ -1,6 +1,7 @@
 package com.sugartown02.goldfingerconsole.service
 
 import com.sugartown02.goldfingerconsole.client.ConsoleInput
+import com.sugartown02.goldfingerconsole.domain.InputValidity
 import com.sugartown02.goldfingerconsole.domain.OrderBuilder
 import com.sugartown02.goldfingerconsole.domain.model.Markets
 import com.sugartown02.goldfingerconsole.domain.model.list
@@ -27,8 +28,8 @@ class OrderMarketChoiceService: AbstractOrderService<Markets, Int>() {
         return ConsoleInput.IntInput(scanner.next())
     }
 
-    override fun valid(orderBuilder: OrderBuilder, input: ConsoleInput<Int>, options: Markets): Boolean {
-        return options.list().getOrNull(input.translation!!) != null
+    override fun valid(orderBuilder: OrderBuilder, input: ConsoleInput<Int>, options: Markets): InputValidity {
+        return if (options.list().getOrNull(input.translation!!) != null) InputValidity.VALID_Y else InputValidity.INVALID
     }
 
     override fun updateOrder(orderBuilder: OrderBuilder, input: ConsoleInput<Int>, options: Markets) {

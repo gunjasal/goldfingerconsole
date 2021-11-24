@@ -1,6 +1,7 @@
 package com.sugartown02.goldfingerconsole.service
 
 import com.sugartown02.goldfingerconsole.client.ConsoleInput
+import com.sugartown02.goldfingerconsole.domain.InputValidity
 import com.sugartown02.goldfingerconsole.domain.OrderBuilder
 import com.sugartown02.goldfingerconsole.domain.model.Markets
 import com.sugartown02.goldfingerconsole.domain.model.list
@@ -17,9 +18,9 @@ class OrderCancelMarketChoiceService: AbstractOrderService<Markets, Int>() {
 
     override fun fetchOptions(orderBuilder: OrderBuilder): Markets? {
         val markets = upbitApiClient.marketAll()
-        val orders = upbitApiClient.orders()
+        val orders = upbitApiClient.getOrders()
         if (!orders.isNullOrEmpty()) {
-            val orderMarkets = orders.distinctBy { it.market }.map { it.market }.toSet()
+            val orderMarkets = orders.distinctBy { it.market }.map { it.market }.toSet() // todo filter side
             return markets!!.filter { orderMarkets.contains(it.code.id) }
         }
 
@@ -40,8 +41,9 @@ class OrderCancelMarketChoiceService: AbstractOrderService<Markets, Int>() {
         return ConsoleInput.IntInput(scanner.next())
     }
 
-    override fun valid(orderBuilder: OrderBuilder, input: ConsoleInput<Int>, options: Markets): Boolean {
-        return options.list().getOrNull(input.translation!!) != null
+    override fun valid(orderBuilder: OrderBuilder, input: ConsoleInput<Int>, options: Markets): InputValidity {
+        return if (options.list().getOrNull(input.translation!!) != null) InputValidity.VALID_Y
+        else InputValidity.INVALID
     }
 
     override fun updateOrder(orderBuilder: OrderBuilder, input: ConsoleInput<Int>, options: Markets) {

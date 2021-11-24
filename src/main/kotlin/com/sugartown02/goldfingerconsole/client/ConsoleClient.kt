@@ -22,6 +22,7 @@ class ConsoleClient(
     val priceUnitChoiceService: PriceUnitChoiceService,
     val orderConfirmService: OrderConfirmService,
     val orderCancelConfirmService: OrderCancelConfirmService,
+    val invalidOrderStateService: InvalidOrderStateService
 ) {
     companion object {
         val log = logger()
@@ -50,8 +51,7 @@ class ConsoleClient(
 
         OrderState.CONFIRM_ORDER -> orderConfirmService
         OrderState.CONFIRM_ORDER_CANCEL -> orderCancelConfirmService
-        OrderState.COMPLETED -> orderConfirmService // fixme
-        OrderState.BYE -> orderConfirmService // fixme
+        else -> invalidOrderStateService
     }.execute(orderBuilder, scanner)
 
     fun run() {

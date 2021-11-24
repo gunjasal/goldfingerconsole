@@ -8,32 +8,29 @@ import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-class OrderConfirmService: AbstractOrderService<EmptyOption, String>() {
+class InvalidOrderStateService: AbstractOrderService<EmptyOption, String>() {
     override fun fetchOptions(orderBuilder: OrderBuilder): EmptyOption? {
         return EmptyOption()
     }
 
     override fun showGuide(orderBuilder: OrderBuilder, options: EmptyOption) {
-        guide(orderBuilder.summary())
-        input(orderBuilder.state.guide)
+        guide("유효하지 않은 상태입니다 : [${orderBuilder.state}]")
+        throw RuntimeException("유효하지 않은 상태입니다 : [${orderBuilder.state}]")
     }
 
     override fun scanInput(scanner: Scanner): ConsoleInput<String> {
-        return ConsoleInput.StringInput(scanner.next())
+        TODO("의도된 노 구현")
     }
 
     override fun valid(orderBuilder: OrderBuilder, input: ConsoleInput<String>, options: EmptyOption): InputValidity {
-        return if (input.translation!!.trim() == "Y") InputValidity.VALID_Y
-        else if (input.translation!!.trim() == "n") InputValidity.VALID_N
-        else InputValidity.INVALID
+        TODO("의도된 노 구현")
     }
 
     override fun updateOrder(orderBuilder: OrderBuilder, input: ConsoleInput<String>, options: EmptyOption) {
-        orderBuilder.orders = orderBuilder.orderUnits()
-        // todo execute order
+        TODO("의도된 노 구현")
     }
 
     override fun showConfirm(orderBuilder: OrderBuilder) {
-        assure("${orderBuilder.orderUnits().mapIndexed { idx, orderUnit -> "($idx) ${orderUnit.postExecutionSummary}\n" }}")
+        TODO("의도된 노 구현")
     }
 }

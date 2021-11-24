@@ -38,7 +38,7 @@ internal class ApiClientTest {
 
     @Test
     fun `test orders api`() {
-        val orders = apiClient.orders()!!
+        val orders = apiClient.getOrders()!!
         println(orders)
     }
 

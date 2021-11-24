@@ -1,6 +1,7 @@
 package com.sugartown02.goldfingerconsole.service
 
 import com.sugartown02.goldfingerconsole.client.ConsoleInput
+import com.sugartown02.goldfingerconsole.domain.InputValidity
 import com.sugartown02.goldfingerconsole.domain.OrderBuilder
 import com.sugartown02.goldfingerconsole.domain.SplitType
 import org.springframework.stereotype.Service
@@ -21,8 +22,8 @@ class SplitTypeChoiceService: AbstractOrderService<List<SplitType>, String>() {
         return ConsoleInput.StringInput(scanner.next())
     }
 
-    override fun valid(orderBuilder: OrderBuilder, input: ConsoleInput<String>, options: List<SplitType>): Boolean {
-        return SplitType.from(input.translation!!) != null
+    override fun valid(orderBuilder: OrderBuilder, input: ConsoleInput<String>, options: List<SplitType>): InputValidity {
+        return if (SplitType.from(input.translation!!) != null) InputValidity.VALID_Y else InputValidity.INVALID
     }
 
     override fun updateOrder(orderBuilder: OrderBuilder, input: ConsoleInput<String>, options: List<SplitType>) {

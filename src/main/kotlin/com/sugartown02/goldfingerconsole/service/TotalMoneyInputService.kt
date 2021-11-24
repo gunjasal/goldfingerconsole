@@ -2,6 +2,7 @@ package com.sugartown02.goldfingerconsole.service
 
 import com.sugartown02.goldfingerconsole.client.ConsoleInput
 import com.sugartown02.goldfingerconsole.domain.EmptyOption
+import com.sugartown02.goldfingerconsole.domain.InputValidity
 import com.sugartown02.goldfingerconsole.domain.OrderBuilder
 import com.sugartown02.goldfingerconsole.domain.helper.Price
 import org.springframework.stereotype.Service
@@ -21,8 +22,8 @@ class TotalMoneyInputService: AbstractOrderService<EmptyOption, Int>() {
         return ConsoleInput.IntInput(scanner.next())
     }
 
-    override fun valid(orderBuilder: OrderBuilder, input: ConsoleInput<Int>, options: EmptyOption): Boolean {
-        return (input.translation!! >= 5000)
+    override fun valid(orderBuilder: OrderBuilder, input: ConsoleInput<Int>, options: EmptyOption): InputValidity {
+        return if (input.translation!! >= 5000) InputValidity.VALID_Y else InputValidity.INVALID
     }
 
     override fun updateOrder(orderBuilder: OrderBuilder, input: ConsoleInput<Int>, options: EmptyOption) {

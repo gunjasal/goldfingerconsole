@@ -1,6 +1,7 @@
 package com.sugartown02.goldfingerconsole.service
 
 import com.sugartown02.goldfingerconsole.client.ConsoleInput
+import com.sugartown02.goldfingerconsole.domain.InputValidity
 import com.sugartown02.goldfingerconsole.domain.OrderBuilder
 import com.sugartown02.goldfingerconsole.domain.model.Orders
 import com.sugartown02.goldfingerconsole.http.UpbitApiClient
@@ -13,7 +14,7 @@ class OrderCancelConfirmService(
 ): AbstractOrderService<Orders, String>() {
 
     override fun fetchOptions(orderBuilder: OrderBuilder): Orders? {
-        return upbitApiClient.orders(orderBuilder.market!!.code) // todo side
+        return upbitApiClient.getOrders(orderBuilder.market!!.code) // todo filter side
     }
 
     override fun showGuide(orderBuilder: OrderBuilder, options: Orders) {
@@ -25,8 +26,10 @@ class OrderCancelConfirmService(
         return ConsoleInput.StringInput(scanner.next())
     }
 
-    override fun valid(orderBuilder: OrderBuilder, input: ConsoleInput<String>, options: Orders): Boolean {
-        return input.translation!!.trim() == "Y"
+    override fun valid(orderBuilder: OrderBuilder, input: ConsoleInput<String>, options: Orders): InputValidity {
+        return if (input.translation!!.trim() == "Y") InputValidity.VALID_Y
+        else if (input.translation!!.trim() == "n") InputValidity.VALID_N
+        else InputValidity.INVALID
     }
 
     override fun updateOrder(orderBuilder: OrderBuilder, input: ConsoleInput<String>, options: Orders) {
@@ -35,7 +38,7 @@ class OrderCancelConfirmService(
     }
 
     override fun showConfirm(orderBuilder: OrderBuilder) {
-        upbitApiClient.orders(orderBuilder.market!!.code)
-        assure("${orderBuilder.cancelledOrders?.mapIndexed { idx, cancelledOrder -> "($idx) ${cancelledOrder.compact()}\n" }}")
+        upbitApiClient.getOrders(orderBuilder.market!!.code)
+        assure("주문 취소 요청 결과\n${orderBuilder.cancelledOrders?.mapIndexed { idx, cancelledOrder -> "($idx) ${cancelledOrder.info()}\n" }}")
     }
 }

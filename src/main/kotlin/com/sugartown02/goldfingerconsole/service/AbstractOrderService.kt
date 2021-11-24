@@ -2,6 +2,7 @@ package com.sugartown02.goldfingerconsole.service
 
 import com.sugartown02.goldfingerconsole.client.Command
 import com.sugartown02.goldfingerconsole.client.ConsoleInput
+import com.sugartown02.goldfingerconsole.domain.InputValidity
 import com.sugartown02.goldfingerconsole.domain.OrderBuilder
 import com.sugartown02.goldfingerconsole.domain.OrderState
 import com.sugartown02.goldfingerconsole.domain.OrderType
@@ -22,18 +23,19 @@ abstract class AbstractOrderService<O, I>: Orderable {
                 processCommand(cmd, orderBuilder)
             } ?: run {
                 input.translation?.let {
-                    if (valid(orderBuilder, input, options)) {
-                        updateOrder(orderBuilder, input, options)
-                        orderBuilder.state =
-                            if (orderBuilder.type == OrderType.ORDER) orderBuilder.state.nextOrderState else orderBuilder.state.nextCancelState
-                        showConfirm(orderBuilder)
-                    } else {
-                        if (this is OrderConfirmService) {
-                            orderBuilder.init()
-                            guide("주문을 초기화할게오.")
-                        } else {
-                            guide("잘못입력햇아오. 다시 입력해주세오.")
+                    when (valid(orderBuilder, input, options)) {
+                        InputValidity.VALID_Y -> {
+                            updateOrder(orderBuilder, input, options)
+                            orderBuilder.state =
+                                if (orderBuilder.type == OrderType.ORDER) orderBuilder.state.nextOrderState
+                                else orderBuilder.state.nextCancelState
+                            showConfirm(orderBuilder)
                         }
+                        InputValidity.VALID_N -> {
+                            guide("주문을 초기화할게오.")
+                            orderBuilder.init()
+                        }
+                        InputValidity.INVALID -> guide("잘못입력햇아오. 다시 입력해주세오.")
                     }
                 } ?: run {
                     guide("잘못입력햇아오. 다시 입력해주세오.")
@@ -45,7 +47,7 @@ abstract class AbstractOrderService<O, I>: Orderable {
     abstract fun fetchOptions(orderBuilder: OrderBuilder): O?
     abstract fun showGuide(orderBuilder: OrderBuilder, options: O)
     abstract fun scanInput(scanner: Scanner): ConsoleInput<I>
-    abstract fun valid(orderBuilder: OrderBuilder, input: ConsoleInput<I>, options: O): Boolean
+    abstract fun valid(orderBuilder: OrderBuilder, input: ConsoleInput<I>, options: O): InputValidity
     abstract fun updateOrder(orderBuilder: OrderBuilder, input: ConsoleInput<I>, options: O)
     abstract fun showConfirm(orderBuilder: OrderBuilder)
 
@@ -68,6 +70,8 @@ abstract class AbstractOrderService<O, I>: Orderable {
         guide("bye!")
         exitProcess(1)
     }
+
+    private fun isYn(input: String) = input in setOf("Y", "n")
 }
 
 fun input(message: String) {

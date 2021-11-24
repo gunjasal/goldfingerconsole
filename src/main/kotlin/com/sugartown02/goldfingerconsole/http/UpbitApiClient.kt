@@ -68,9 +68,10 @@ class UpbitApiClient {
 
     fun orderBook(marketCode: MarketCode): OrderBooks? = call(upbitApiService.orderbook(marketCode.id), "orderbook api error")
 
-    fun orders(marketCode: MarketCode? = null): Orders? {
+    fun getOrders(marketCode: MarketCode? = null): Orders? {
         val queryMap = mutableMapOf<String, String>()
         queryMap["state"] = "wait"
+        queryMap["order_by"] = "desc"
         if (marketCode != null) queryMap["market"] = marketCode.id
 
         return call(upbitApiService.orders(upbitToken(queryMap), queryMap), "orders api error")
