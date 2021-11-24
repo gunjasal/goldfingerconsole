@@ -23,29 +23,40 @@ abstract class AbstractOrderService<O, I>: Orderable {
                 processCommand(cmd, orderBuilder)
             } ?: run {
                 input.translation?.let {
-                    when (valid(orderBuilder, input, options)) {
-                        InputValidity.VALID_Y -> {
-                            updateOrder(orderBuilder, input, options)
-                            orderBuilder.state =
-                                if (orderBuilder.type == OrderType.ORDER) orderBuilder.state.nextOrderState
-                                else orderBuilder.state.nextCancelState
-                            showConfirm(orderBuilder)
-                        }
-                        InputValidity.VALID_N -> {
-                            guide("주문을 초기화할게오.")
-                            orderBuilder.init()
-                        }
-                        InputValidity.INVALID -> guide("잘못입력햇아오. 다시 입력해주세오.")
-                    }
+                    process(orderBuilder, input, options)
                 } ?: run {
                     guide("잘못입력햇아오. 다시 입력해주세오.")
                 }
             }
+        } ?: run {
+            showEmptyOptionGuide(orderBuilder)
+            orderBuilder.init()
+        }
+    }
+
+    private fun process(
+        orderBuilder: OrderBuilder,
+        input: ConsoleInput<I>,
+        options: O,
+    ) {
+        when (valid(orderBuilder, input, options)) {
+            InputValidity.VALID_Y -> {
+                updateOrder(orderBuilder, input, options)
+                orderBuilder.state =
+                    if (orderBuilder.type == OrderType.ORDER) orderBuilder.state.nextOrderState
+                    else orderBuilder.state.nextCancelState
+                showConfirm(orderBuilder)
+            }
+            InputValidity.VALID_N -> {
+                orderBuilder.init()
+            }
+            InputValidity.INVALID -> guide("잘못입력햇아오. 다시 입력해주세오.")
         }
     }
 
     abstract fun fetchOptions(orderBuilder: OrderBuilder): O?
     abstract fun showGuide(orderBuilder: OrderBuilder, options: O)
+    abstract fun showEmptyOptionGuide(orderBuilder: OrderBuilder)
     abstract fun scanInput(scanner: Scanner): ConsoleInput<I>
     abstract fun valid(orderBuilder: OrderBuilder, input: ConsoleInput<I>, options: O): InputValidity
     abstract fun updateOrder(orderBuilder: OrderBuilder, input: ConsoleInput<I>, options: O)
@@ -57,12 +68,12 @@ abstract class AbstractOrderService<O, I>: Orderable {
     ) {
         when (cmd) {
             Command.BYE -> bye()
-            Command.INIT -> orderBuilder.init()
-            Command.MONEY -> orderBuilder.reprice() // todo remove or check cmd order
-        }
-
-        cmd.nextState?.let {
-            orderBuilder.state = cmd.nextState
+            Command.INIT -> {
+                orderBuilder.init()
+            }
+            Command.HELP -> {
+                guide(Command.values().joinToString { it.input })
+            }
         }
     }
 

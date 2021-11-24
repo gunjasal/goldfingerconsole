@@ -15,7 +15,11 @@ class TotalMoneyInputService: AbstractOrderService<EmptyOption, Int>() {
     }
 
     override fun showGuide(orderBuilder: OrderBuilder, options: EmptyOption) {
-        input("${orderBuilder.state.guide}")
+        input(orderBuilder.state.guide)
+    }
+
+    override fun showEmptyOptionGuide(orderBuilder: OrderBuilder) {
+        throw NotImplementedError("의도된 노 구현")
     }
 
     override fun scanInput(scanner: Scanner): ConsoleInput<Int> {
@@ -31,6 +35,6 @@ class TotalMoneyInputService: AbstractOrderService<EmptyOption, Int>() {
     }
 
     override fun showConfirm(orderBuilder: OrderBuilder) {
-        assure("₩ %,.1f\n".format(orderBuilder.money))
+        assure("₩ %,.0f\n".format(orderBuilder.money))
     }
 }

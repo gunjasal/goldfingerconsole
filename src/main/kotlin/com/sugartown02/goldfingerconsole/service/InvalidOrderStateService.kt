@@ -19,18 +19,22 @@ class InvalidOrderStateService: AbstractOrderService<EmptyOption, String>() {
     }
 
     override fun scanInput(scanner: Scanner): ConsoleInput<String> {
-        TODO("의도된 노 구현")
+        throw NotImplementedError("의도된 노 구현")
     }
 
     override fun valid(orderBuilder: OrderBuilder, input: ConsoleInput<String>, options: EmptyOption): InputValidity {
-        TODO("의도된 노 구현")
+        throw NotImplementedError("의도된 노 구현")
     }
 
     override fun updateOrder(orderBuilder: OrderBuilder, input: ConsoleInput<String>, options: EmptyOption) {
-        TODO("의도된 노 구현")
+        throw NotImplementedError("의도된 노 구현")
     }
 
     override fun showConfirm(orderBuilder: OrderBuilder) {
-        TODO("의도된 노 구현")
+        throw NotImplementedError("의도된 노 구현")
+    }
+
+    override fun showEmptyOptionGuide(orderBuilder: OrderBuilder) {
+        TODO("Not yet implemented")
     }
 }

@@ -41,16 +41,20 @@ class ConsoleClient(
 
         OrderState.CHOOSE_ORDER_MARKET -> orderMarketChoiceService
         OrderState.CHOOSE_ORDER_CANCEL_MARKET -> orderCancelMarketChoiceService
+
         OrderState.BUY_OR_SELL -> orderSideChoiceService
 
+        // order specific
         OrderState.CHOOSE_SPLIT_TYPE -> splitTypeChoiceService
         OrderState.INPUT_TOTAL_MONEY -> totalMoneyInputService
         OrderState.INPUT_MIN_PRICE -> minPriceInputService
         OrderState.INPUT_MAX_PRICE -> maxPriceInputService
         OrderState.CHOOSE_PRICE_UNIT -> priceUnitChoiceService
 
+        // confirm
         OrderState.CONFIRM_ORDER -> orderConfirmService
         OrderState.CONFIRM_ORDER_CANCEL -> orderCancelConfirmService
+
         else -> invalidOrderStateService
     }.execute(orderBuilder, scanner)
 

@@ -14,12 +14,18 @@ class OrderCancelConfirmService(
 ): AbstractOrderService<Orders, String>() {
 
     override fun fetchOptions(orderBuilder: OrderBuilder): Orders? {
-        return upbitApiClient.getOrders(orderBuilder.market!!.code) // todo filter side
+        return upbitApiClient
+            .getOrders(orderBuilder.market!!.code)
+            ?.filter { it.side == orderBuilder.side!!.upbitParam }
     }
 
     override fun showGuide(orderBuilder: OrderBuilder, options: Orders) {
         options.forEachIndexed { idx, order -> println("($idx) ${order.compact()}") }
         input(orderBuilder.state.guide)
+    }
+
+    override fun showEmptyOptionGuide(orderBuilder: OrderBuilder) {
+        throw NotImplementedError("의도된 노 구현")
     }
 
     override fun scanInput(scanner: Scanner): ConsoleInput<String> {

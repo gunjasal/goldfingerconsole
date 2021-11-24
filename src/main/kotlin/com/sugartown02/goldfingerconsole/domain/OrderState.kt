@@ -3,14 +3,14 @@ package com.sugartown02.goldfingerconsole.domain
 enum class OrderState(val guide: String)
 {
     CHOOSE_TYPE("주문/취소를 선택해주세오?"),
-    CHOOSE_ORDER_MARKET("마켓을 선택해주세오?"),
-    CHOOSE_ORDER_CANCEL_MARKET("마켓을 선택해주세오?"),
+    CHOOSE_ORDER_MARKET("주문할 마켓을 선택해주세오?"),
+    CHOOSE_ORDER_CANCEL_MARKET("주문취소할 마켓을 선택해주세오?"),
     BUY_OR_SELL("매수/매도를 선택해주세오?"),
     CHOOSE_SPLIT_TYPE("분할방식을 선택해주세오?"),
-    INPUT_TOTAL_MONEY("[총 매수/매도 금액]을 숫자만 입력해주세오?"), // money
-    INPUT_MIN_PRICE("[가장 낮은 호가]를 입력해주세오?"), // min
-    INPUT_MAX_PRICE("[가장 높은 호가]를 입력해주세오?"), // max
-    CHOOSE_PRICE_UNIT("분할하고 싶은 호가단위를 입력해주세오?"), // unit
+    INPUT_TOTAL_MONEY("[총 매수/매도 금액]을 숫자만 입력해주세오?"),
+    INPUT_MIN_PRICE("[가장 낮은 주문가격]을 입력해주세오?"),
+    INPUT_MAX_PRICE("[가장 높은 주문가격]을 입력해주세오?"),
+    CHOOSE_PRICE_UNIT("분할하고 싶은 호가단위를 입력해주세오?"),
     CONFIRM_ORDER("주문 고고할래오? [Y/n]"),
     CONFIRM_ORDER_CANCEL("주문취소 고고할래오? [Y/n]"),
     BYE("그럼 또 만나요ㅇㅇ");

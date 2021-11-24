@@ -19,6 +19,10 @@ class OrderTypeChoiceService: AbstractOrderService<List<OrderType>, String>() {
         input("${orderBuilder.state.guide} [${options.stream().map { "(${it.alias}) ${it.command}" }.toList().joinToString()}]")
     }
 
+    override fun showEmptyOptionGuide(orderBuilder: OrderBuilder) {
+        throw NotImplementedError("의도된 노 구현")
+    }
+
     override fun scanInput(scanner: Scanner): ConsoleInput<String> {
         return ConsoleInput.StringInput(scanner.next())
     }

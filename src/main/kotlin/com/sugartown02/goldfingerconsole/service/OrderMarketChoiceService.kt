@@ -19,6 +19,10 @@ class OrderMarketChoiceService: AbstractOrderService<Markets, Int>() {
         return upbitApiClient.marketAll()
     }
 
+    override fun showEmptyOptionGuide(orderBuilder: OrderBuilder) {
+        throw NotImplementedError("의도된 노 구현")
+    }
+
     override fun showGuide(orderBuilder: OrderBuilder, options: Markets) {
         options.print(true)
         input(orderBuilder.state.guide)

@@ -25,6 +25,10 @@ class PriceUnitChoiceService: AbstractOrderService<PriceUnit, Double>() {
         input(orderBuilder.state.guide)
     }
 
+    override fun showEmptyOptionGuide(orderBuilder: OrderBuilder) {
+        throw NotImplementedError("의도된 노 구현")
+    }
+
     override fun scanInput(scanner: Scanner): ConsoleInput<Double> {
         return ConsoleInput.DoubleInput(scanner.next())
     }

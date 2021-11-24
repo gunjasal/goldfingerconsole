@@ -17,24 +17,26 @@ class OrderCancelMarketChoiceService: AbstractOrderService<Markets, Int>() {
     lateinit var upbitApiClient: UpbitApiClient
 
     override fun fetchOptions(orderBuilder: OrderBuilder): Markets? {
-        val markets = upbitApiClient.marketAll()
-        val orders = upbitApiClient.getOrders()
-        if (!orders.isNullOrEmpty()) {
-            val orderMarkets = orders.distinctBy { it.market }.map { it.market }.toSet() // todo filter side
-            return markets!!.filter { orderMarkets.contains(it.code.id) }
-        }
+        val markets = upbitApiClient.marketAll() ?: emptyList()
+        val orders = upbitApiClient.getOrders() ?: emptyList()
 
-        return emptyList()
+        val distinctOrderMarkets = orders
+            .filter { it.side == orderBuilder.side!!.upbitParam }
+            .distinctBy { it.market }
+            .map { it.market }
+            .toSet()
+
+        val marketCodes = markets.filter { distinctOrderMarkets.contains(it.code.id) }
+        return marketCodes.ifEmpty { null }
     }
 
     override fun showGuide(orderBuilder: OrderBuilder, options: Markets) {
-        if (!options.isNullOrEmpty()) {
-            options.print()
-            input(orderBuilder.state.guide)
-        } else {
-            throw IllegalStateException("주문내역이 없습닏.")
-        }
+        options.print()
+        input(orderBuilder.state.guide)
+    }
 
+    override fun showEmptyOptionGuide(orderBuilder: OrderBuilder) {
+        guide("주문내역이 없습닏.")
     }
 
     override fun scanInput(scanner: Scanner): ConsoleInput<Int> {

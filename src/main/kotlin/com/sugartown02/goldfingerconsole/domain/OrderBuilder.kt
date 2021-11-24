@@ -6,6 +6,7 @@ import com.sugartown02.goldfingerconsole.domain.helper.OrderUnits
 import com.sugartown02.goldfingerconsole.domain.helper.Price
 import com.sugartown02.goldfingerconsole.domain.model.CancelledOrder
 import com.sugartown02.goldfingerconsole.domain.model.Market
+import com.sugartown02.goldfingerconsole.service.guide
 import java.math.RoundingMode
 
 class OrderBuilder {
@@ -41,6 +42,8 @@ class OrderBuilder {
     }
 
     fun init() = run {
+        guide("주문을 초기화할게오.")
+
         type = null
         state = OrderState.CHOOSE_TYPE
         market = null
@@ -52,21 +55,6 @@ class OrderBuilder {
         priceUnit = Price("0.0")
         orders = null
         cancelledOrders = null
-    }
-
-    fun reprice() = run {
-        state = OrderState.INPUT_MIN_PRICE
-        money = Price("0.0")
-        minPrice = Price("0.0")
-        maxPrice = Price("0.0")
-        priceUnit = Price("0.0")
-    }
-
-    fun min() = run { // todo
-        state = OrderState.INPUT_MIN_PRICE
-        minPrice = Price("0.0")
-        maxPrice = Price("0.0")
-        priceUnit = Price("0.0")
     }
 
     // privates
@@ -99,9 +87,9 @@ class OrderBuilder {
             "- ${market?.code?.id}\n" +
             "- ${side?.koText} (${side?.upbitParam})\n" +
             "- ${splitType?.koText}\n" +
-            "- ${"총 ₩ %,.1f".format(money)}\n" +
-            "- ${"최소 ₩ %,.1f".format(minPrice)}\n" +
-            "- ${"최대 ₩ %,.1f".format(maxPrice)}\n" +
+            "- ${"총 ₩ %,.0f".format(money)}\n" +
+            "- ${"최소가격 ₩ %,.1f".format(minPrice)}\n" +
+            "- ${"최대가격 ₩ %,.1f".format(maxPrice)}\n" +
             "- ${"단위 ₩ %,.1f".format(priceUnit)}\n" +
             "${orderUnits().mapIndexed { idx, orderUnit -> "($idx) ${orderUnit.preExecutionSummary}\n" }}" +
             "======================="

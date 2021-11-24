@@ -18,13 +18,17 @@ class OrderConfirmService: AbstractOrderService<EmptyOption, String>() {
         input(orderBuilder.state.guide)
     }
 
+    override fun showEmptyOptionGuide(orderBuilder: OrderBuilder) {
+        throw NotImplementedError("의도된 노 구현")
+    }
+
     override fun scanInput(scanner: Scanner): ConsoleInput<String> {
         return ConsoleInput.StringInput(scanner.next())
     }
 
     override fun valid(orderBuilder: OrderBuilder, input: ConsoleInput<String>, options: EmptyOption): InputValidity {
         return if (input.translation!!.trim() == "Y") InputValidity.VALID_Y
-        else if (input.translation!!.trim() == "n") InputValidity.VALID_N
+        else if (input.translation.trim() == "n") InputValidity.VALID_N
         else InputValidity.INVALID
     }
 

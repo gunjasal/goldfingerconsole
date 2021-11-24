@@ -25,6 +25,10 @@ class MaxPriceInputService: AbstractOrderService<PriceUnit, Double>() {
         input("${orderBuilder.state.guide} (${options.guide()})")
     }
 
+    override fun showEmptyOptionGuide(orderBuilder: OrderBuilder) {
+        TODO("Not yet implemented")
+    }
+
     override fun scanInput(scanner: Scanner): ConsoleInput<Double> {
         return ConsoleInput.DoubleInput(scanner.next())
     }
