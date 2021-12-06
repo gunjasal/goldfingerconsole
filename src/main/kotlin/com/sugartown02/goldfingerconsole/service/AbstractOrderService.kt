@@ -81,8 +81,6 @@ abstract class AbstractOrderService<O, I>: Orderable {
         guide("bye!")
         exitProcess(1)
     }
-
-    private fun isYn(input: String) = input in setOf("Y", "n")
 }
 
 fun input(message: String) {

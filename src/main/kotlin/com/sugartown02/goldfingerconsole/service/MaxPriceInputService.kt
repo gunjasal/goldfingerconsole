@@ -3,6 +3,7 @@ package com.sugartown02.goldfingerconsole.service
 import com.sugartown02.goldfingerconsole.client.ConsoleInput
 import com.sugartown02.goldfingerconsole.declaration.PriceUnit
 import com.sugartown02.goldfingerconsole.declaration.guide
+import com.sugartown02.goldfingerconsole.declaration.isZero
 import com.sugartown02.goldfingerconsole.domain.InputValidity
 import com.sugartown02.goldfingerconsole.domain.OrderBuilder
 import com.sugartown02.goldfingerconsole.domain.helper.OrderCalculator
@@ -35,7 +36,7 @@ class MaxPriceInputService: AbstractOrderService<PriceUnit, Double>() {
 
     override fun valid(orderBuilder: OrderBuilder, input: ConsoleInput<Double>, options: PriceUnit): InputValidity {
         return if ((input.translation!! > orderBuilder.minPrice.toDouble()) &&
-                input.translation!!.toBigDecimal().rem(options.toBigDecimal()) == 0.0.toBigDecimal()) InputValidity.VALID_Y
+                input.translation!!.toBigDecimal().rem(options.toBigDecimal()).isZero()) InputValidity.VALID_Y
         else InputValidity.INVALID
     }
 

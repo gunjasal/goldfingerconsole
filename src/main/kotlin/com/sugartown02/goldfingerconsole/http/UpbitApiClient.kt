@@ -7,7 +7,6 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.sugartown02.goldfingerconsole.declaration.logger
 import com.sugartown02.goldfingerconsole.domain.MarketCode
 import com.sugartown02.goldfingerconsole.domain.OrderBuilder
-import com.sugartown02.goldfingerconsole.domain.helper.OrderUnits
 import com.sugartown02.goldfingerconsole.domain.model.*
 import okhttp3.OkHttpClient
 import org.springframework.stereotype.Service
@@ -32,6 +31,7 @@ class UpbitApiClient {
             .addConverterFactory(JacksonConverterFactory.create(objectMapper)).client(httpClient).build()
 
         private val upbitApiService = upbitApiClient.create(UpbitApiService::class.java)
+        private const val UPBIT_CALL_INTERVAL = 200L // should be > upbit threshold 8회/1초 = 125ms
 
         private fun keyProperties(): Properties {
             val props = Properties()
@@ -95,7 +95,7 @@ class UpbitApiClient {
             queryMap["ord_type"] = "limit"
 
             try {
-                Thread.sleep(130) // 8회/1초
+                Thread.sleep(UPBIT_CALL_INTERVAL)
                 call(upbitApiService.requestOrder(upbitToken(queryMap), queryMap), "request order api error")
             } catch (e: Exception) {
                 Order(
@@ -103,6 +103,7 @@ class UpbitApiClient {
                     side = orderBuilder.side!!.upbitParam,
                     price = orderUnit.price.toString(),
                     volume = orderUnit.quantity.toString(),
+                    uuid = "order failed(${e.message})",
                     customErrorMessage = "${e.message}")
             }
         }
@@ -115,7 +116,7 @@ class UpbitApiClient {
             queryMap["uuid"] = uuid
 
             try {
-                Thread.sleep(130) // 8회/1초
+                Thread.sleep(UPBIT_CALL_INTERVAL)
                 call(upbitApiService.cancelOrder(upbitToken(queryMap), queryMap), "order cancel api error")
             } catch (e: Exception) {
                 CancelledOrder(uuid = uuid, customErrorMessage = "${e.message}")
