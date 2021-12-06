@@ -8,6 +8,7 @@ import com.sugartown02.goldfingerconsole.declaration.logger
 import com.sugartown02.goldfingerconsole.domain.MarketCode
 import com.sugartown02.goldfingerconsole.domain.OrderBuilder
 import com.sugartown02.goldfingerconsole.domain.model.*
+import com.sugartown02.goldfingerconsole.http.helper.PropertyReader.keyProperties
 import okhttp3.OkHttpClient
 import org.springframework.stereotype.Service
 import retrofit2.Call
@@ -32,16 +33,6 @@ class UpbitApiClient {
 
         private val upbitApiService = upbitApiClient.create(UpbitApiService::class.java)
         private const val UPBIT_CALL_INTERVAL = 200L // should be > upbit threshold 8회/1초 = 125ms
-
-        private fun keyProperties(): Properties {
-            val props = Properties()
-            props.load(FileInputStream("./keys.properties"))
-
-            if (props["accessToken"] == null || props["accessToken"].toString().isBlank()) throw IllegalStateException("no accessToken in keys.properties")
-            if (props["secretToken"] == null || props["secretToken"].toString().isBlank()) throw IllegalStateException("no secretToken in keys.properties")
-
-            return props
-        }
 
         private fun upbitToken(queryMap: Map<String, String>): String {
             val keys = keyProperties()
