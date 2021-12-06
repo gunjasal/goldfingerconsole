@@ -1,24 +1,6 @@
 package com.sugartown02.goldfingerconsole.domain.helper
 
-import com.sugartown02.goldfingerconsole.domain.OrderBuilder
-import com.sugartown02.goldfingerconsole.domain.SplitType
-import java.math.RoundingMode
-
 object OrderCalculator {
-    fun findN(money: Int) {
-        val totalPyramidElementCount = money / 5000 // = n(n+1)/2
-        var n = 0
-        for (i in 1..100) {
-            if (n + i > totalPyramidElementCount) {
-                println(i)
-                break
-            }
-            n += i
-            println("${5000 * i} : $i")
-        }
-        println("total elements: $n")
-    }
-
     fun priceUnit(marketPrice: Double): Double {
         fun range(min: Double, max: Double): Boolean = (min <= marketPrice && marketPrice < max)
 

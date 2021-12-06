@@ -7,6 +7,6 @@ enum class OrderSide(val command: String, val alias: String, val upbitParam: Str
 
     companion object {
         private val sides = values().associateBy(OrderSide::alias)
-        fun from(alias: String) = sides[alias] ?: null
+        fun from(alias: String) = sides[alias]
     }
 }

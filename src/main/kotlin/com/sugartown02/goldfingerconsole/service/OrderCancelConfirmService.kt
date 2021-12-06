@@ -44,7 +44,6 @@ class OrderCancelConfirmService(
     }
 
     override fun showConfirm(orderBuilder: OrderBuilder) {
-//        upbitApiClient.getOrders(orderBuilder.market!!.code) // todo fix
         assure("주문 취소 요청 결과\n${orderBuilder.cancelledOrders?.mapIndexed { idx, cancelledOrder -> "($idx) ${cancelledOrder.info}\n" }}")
     }
 }

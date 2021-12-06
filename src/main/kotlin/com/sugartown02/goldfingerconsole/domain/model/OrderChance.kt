@@ -13,16 +13,7 @@ data class OrderChance (
     val market: MarketSummary,
     val bidAccount: AccountState,
     val askAccount: AccountState
-) {
-    fun orderConstraint(orderSide: OrderSide): OrderConstraint {
-        return if (orderSide == OrderSide.BID) market.bid else market.ask
-    }
-
-    fun info(orderSide: OrderSide): String {
-        val constraint = if (orderSide == OrderSide.BID) market.bid else market.ask
-        return "${orderSide.koText} -> ${constraint.info}"
-    }
-}
+)
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -54,6 +45,4 @@ data class OrderConstraint (
     val currency: String,
     val priceUnit: Int = null ?: 1,
     val minTotal: Double
-) {
-    val info get() = "$currency 호가단위(${priceUnit}) 최소금액($minTotal)"
-}
+)

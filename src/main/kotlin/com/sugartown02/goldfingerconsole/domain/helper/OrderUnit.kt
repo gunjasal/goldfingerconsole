@@ -14,5 +14,5 @@ data class OrderUnit(val price: Price, val quantity: Quantity) {
     private val total = (price * quantity).toInt()
     private val valid = total > minBidMoney
 
-    fun preExecutionSummary() = "$price (${"%.5f".format(quantity)} unit) [₩ ${total}] ${if(valid) "유효" else "패스 XXX"}"
+    val preExecutionSummary get() = "$price (${"%.5f".format(quantity)} unit) [₩ ${total}] ${if(valid) "유효" else "패스 XXX"}"
 }

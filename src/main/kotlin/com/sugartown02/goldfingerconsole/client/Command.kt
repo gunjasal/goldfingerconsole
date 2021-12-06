@@ -7,6 +7,6 @@ enum class Command(val input: String) {
 
     companion object {
         private val commands = values().associateBy(Command::input)
-        fun from(input: String) = commands[input.trim().lowercase()] ?: null
+        fun from(input: String) = commands[input.trim().lowercase()]
     }
 }

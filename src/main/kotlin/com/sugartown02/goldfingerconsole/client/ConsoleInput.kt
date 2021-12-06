@@ -9,15 +9,12 @@ sealed class ConsoleInput<T>(value: String) {
     val translation: T? = command?.let {
         null
     } ?: run {
+        @Suppress("UNCHECKED_CAST")
         when (this) {
             is IntInput -> value.toIntOrNull() as T?
             is DoubleInput -> {
-                value.toDoubleOrNull()?.let {
-                    it
-                } as T? ?: {
-                    value.toIntOrNull()?.let { i ->
-                        i.toDouble()
-                    }
+                value.toDoubleOrNull() as T? ?: {
+                    value.toIntOrNull()?.toDouble()
                 } as T?
             }
             is StringInput -> value as T?

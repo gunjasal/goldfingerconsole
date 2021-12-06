@@ -65,7 +65,7 @@ class ConsoleClient(
             } catch (e: Exception) {
                 guide("에러낫따: $e")
                 guide("문제발생한거 같따. 다시 츄라이 원해요 retry? (Y/n)")
-                if (scanner.next().trim().lowercase() == "n") {
+                if (scanner.next().trim() == "n") {
                     orderBuilder.state = OrderState.BYE
                 }
             }

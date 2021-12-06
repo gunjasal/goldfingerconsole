@@ -7,6 +7,6 @@ enum class OrderType(val command: String, val alias: String, val koText: String)
 
     companion object {
         private val sides = values().associateBy(OrderType::alias)
-        fun from(alias: String) = sides[alias] ?: null
+        fun from(alias: String) = sides[alias]
     }
 }

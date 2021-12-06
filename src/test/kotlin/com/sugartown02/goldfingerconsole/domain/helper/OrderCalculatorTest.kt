@@ -1,17 +1,9 @@
 package com.sugartown02.goldfingerconsole.domain.helper
 
-import com.sugartown02.goldfingerconsole.domain.OrderBuilder
-import com.sugartown02.goldfingerconsole.domain.OrderSide
-import com.sugartown02.goldfingerconsole.domain.SplitType
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 internal class OrderCalculatorTest {
-    @Test
-    fun `find n`() {
-        OrderCalculator.findN(500_000)
-    }
-
     @Test
     fun `price unit`() {
         assertThat(OrderCalculator.priceUnit(2_000_000.0)).isEqualTo(1000.0)

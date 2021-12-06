@@ -94,6 +94,6 @@ class OrderBuilder {
             "- ${"최소가격 ₩ %,.1f".format(minPrice)}\n" +
             "- ${"최대가격 ₩ %,.1f".format(maxPrice)}\n" +
             "- ${"단위 ₩ %,.1f".format(priceUnit)}\n" +
-            "${orderUnits().mapIndexed { idx, orderUnit -> "($idx) ${orderUnit.preExecutionSummary()}\n" }}" +
+            "${orderUnits().mapIndexed { idx, orderUnit -> "($idx) ${orderUnit.preExecutionSummary}\n" }}" +
             "======================="
 }

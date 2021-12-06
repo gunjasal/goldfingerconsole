@@ -6,6 +6,6 @@ enum class SplitType(val command: String, val alias: String, val koText: String)
 
     companion object {
         private val types = values().associateBy(SplitType::alias)
-        fun from(alias: String) = types[alias] ?: null
+        fun from(alias: String) = types[alias]
     }
 }

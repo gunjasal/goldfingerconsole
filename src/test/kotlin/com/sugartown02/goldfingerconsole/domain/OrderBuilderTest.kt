@@ -15,7 +15,7 @@ internal class OrderBuilderTest {
         orderBuilder.splitType = SplitType.EQUAL
 
         orderBuilder.splitMoneyToOrderUnits().forEachIndexed { idx, orderUnit ->
-            println("($idx) ${orderUnit.preExecutionSummary()}")
+            println("($idx) ${orderUnit.preExecutionSummary}")
         }
     }
 
@@ -30,7 +30,7 @@ internal class OrderBuilderTest {
         orderBuilder.splitType = SplitType.EQUAL
 
         orderBuilder.splitMoneyToOrderUnits().forEachIndexed { idx, orderUnit ->
-            println("($idx) ${orderUnit.preExecutionSummary()}")
+            println("($idx) ${orderUnit.preExecutionSummary}")
         }
     }
 
@@ -45,7 +45,7 @@ internal class OrderBuilderTest {
         orderBuilder.splitType = SplitType.PYRAMID
 
         orderBuilder.splitMoneyToOrderUnits().forEachIndexed { idx, orderUnit ->
-            println("($idx) ${orderUnit.preExecutionSummary()}")
+            println("($idx) ${orderUnit.preExecutionSummary}")
         }
     }
 
@@ -60,7 +60,7 @@ internal class OrderBuilderTest {
         orderBuilder.splitType = SplitType.PYRAMID
 
         orderBuilder.splitMoneyToOrderUnits().forEachIndexed { idx, orderUnit ->
-            println("($idx) ${orderUnit.preExecutionSummary()}")
+            println("($idx) ${orderUnit.preExecutionSummary}")
         }
     }
 

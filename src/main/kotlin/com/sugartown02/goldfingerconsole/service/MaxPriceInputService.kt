@@ -36,7 +36,7 @@ class MaxPriceInputService: AbstractOrderService<PriceUnit, Double>() {
 
     override fun valid(orderBuilder: OrderBuilder, input: ConsoleInput<Double>, options: PriceUnit): InputValidity {
         return if ((input.translation!! > orderBuilder.minPrice.toDouble()) &&
-                input.translation!!.toBigDecimal().rem(options.toBigDecimal()).isZero()) InputValidity.VALID_Y
+                input.translation.toBigDecimal().rem(options.toBigDecimal()).isZero()) InputValidity.VALID_Y
         else InputValidity.INVALID
     }
 

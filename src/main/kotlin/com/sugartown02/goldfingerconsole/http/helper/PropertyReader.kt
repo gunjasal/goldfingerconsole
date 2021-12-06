@@ -1,12 +1,11 @@
 package com.sugartown02.goldfingerconsole.http.helper
 
 import com.sugartown02.goldfingerconsole.declaration.logger
+import com.sugartown02.goldfingerconsole.service.guide
 import java.io.FileInputStream
 import java.util.*
 
 object PropertyReader {
-    private val log = logger()
-
     fun keyProperties(): Properties {
         val props = Properties()
         try {
@@ -14,7 +13,7 @@ object PropertyReader {
                 props.load(it)
             }
         } catch (e: Exception) {
-            log.error("keys.properties error: $e")
+            guide("keys.properties error: $e")
             throw e
         }
 
