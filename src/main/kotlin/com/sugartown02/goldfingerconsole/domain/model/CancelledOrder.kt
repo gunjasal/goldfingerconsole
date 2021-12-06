@@ -25,5 +25,5 @@ data class CancelledOrder(
 
     val customErrorMessage: String? // not in original model
 ) {
-    fun info() = "[${customErrorMessage ?: "요청완료"}] $market ($side) $price 수량($volume) 잔여수량($remainingVolume)"
+    val info get() = "[${customErrorMessage ?: "요청완료"}] $market ($side) $price 수량($volume) 잔여수량($remainingVolume)"
 }

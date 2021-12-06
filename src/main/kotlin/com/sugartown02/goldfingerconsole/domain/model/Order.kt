@@ -27,5 +27,5 @@ data class Order (
 
     val customErrorMessage: String? // not in original model
 ) {
-    fun info() = "$market ($side) $price 수량($volume) 잔여수량($remainingVolume) [$uuid]"
+    val info get() = "$market ($side) $price 수량($volume) 잔여수량($remainingVolume) [$uuid]"
 }

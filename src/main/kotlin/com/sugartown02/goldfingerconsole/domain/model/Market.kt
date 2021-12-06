@@ -11,9 +11,7 @@ typealias Markets = List<Market>
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Market (@JsonProperty("market") val code: MarketCode, val koreanName: String, val englishName: String) {
-    fun info(): String {
-        return "$koreanName($code)"
-    }
+    val info get() = "$koreanName($code)"
 }
 
 fun Markets.list(activeOnly: Boolean = false): Markets {
@@ -24,5 +22,5 @@ fun Markets.list(activeOnly: Boolean = false): Markets {
 }
 
 fun Markets.print(activeOnly: Boolean = false) {
-    this.list(activeOnly).forEachIndexed { idx, market -> println("($idx) ${market.info()}") }
+    this.list(activeOnly).forEachIndexed { idx, market -> println("($idx) ${market.info}") }
 }

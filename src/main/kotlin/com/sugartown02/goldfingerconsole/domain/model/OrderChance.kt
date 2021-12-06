@@ -20,7 +20,7 @@ data class OrderChance (
 
     fun info(orderSide: OrderSide): String {
         val constraint = if (orderSide == OrderSide.BID) market.bid else market.ask
-        return "${orderSide.koText} -> ${constraint.info()}"
+        return "${orderSide.koText} -> ${constraint.info}"
     }
 }
 
@@ -55,5 +55,5 @@ data class OrderConstraint (
     val priceUnit: Int = null ?: 1,
     val minTotal: Double
 ) {
-    fun info() = "$currency 호가단위(${priceUnit}) 최소금액($minTotal)"
+    val info get() = "$currency 호가단위(${priceUnit}) 최소금액($minTotal)"
 }

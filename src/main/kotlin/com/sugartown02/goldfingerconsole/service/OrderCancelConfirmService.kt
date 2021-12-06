@@ -20,7 +20,7 @@ class OrderCancelConfirmService(
     }
 
     override fun showGuide(orderBuilder: OrderBuilder, options: Orders) {
-        options.forEachIndexed { idx, order -> println("($idx) ${order.info()}") }
+        options.forEachIndexed { idx, order -> println("($idx) ${order.info}") }
         input(orderBuilder.state.guide)
     }
 
@@ -45,6 +45,6 @@ class OrderCancelConfirmService(
 
     override fun showConfirm(orderBuilder: OrderBuilder) {
 //        upbitApiClient.getOrders(orderBuilder.market!!.code) // todo fix
-        assure("주문 취소 요청 결과\n${orderBuilder.cancelledOrders?.mapIndexed { idx, cancelledOrder -> "($idx) ${cancelledOrder.info()}\n" }}")
+        assure("주문 취소 요청 결과\n${orderBuilder.cancelledOrders?.mapIndexed { idx, cancelledOrder -> "($idx) ${cancelledOrder.info}\n" }}")
     }
 }

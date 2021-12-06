@@ -41,6 +41,6 @@ class OrderMarketChoiceService: AbstractOrderService<Markets, Int>() {
     }
 
     override fun showConfirm(orderBuilder: OrderBuilder) {
-        assure("${orderBuilder.market!!.info()} 골랏읍니다\n")
+        assure("${orderBuilder.market!!.info} 골랏읍니다\n")
     }
 }

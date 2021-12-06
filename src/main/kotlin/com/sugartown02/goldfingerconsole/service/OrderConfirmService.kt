@@ -41,6 +41,6 @@ class OrderConfirmService(
     }
 
     override fun showConfirm(orderBuilder: OrderBuilder) {
-        assure("주문 요청 결과\n${orderBuilder.requestedOrders?.mapIndexed { idx, order -> "($idx) ${order.info()}\n" }}")
+        assure("주문 요청 결과\n${orderBuilder.requestedOrders?.mapIndexed { idx, order -> "($idx) ${order.info}\n" }}")
     }
 }
